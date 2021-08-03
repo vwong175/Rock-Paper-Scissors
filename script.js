@@ -14,8 +14,13 @@ const scissor_div = document.getElementById('s');
 window.addEventListener(
   'load',
   function () {
-    userScore_span.innerHTML = userScore;
-    compScore_span.innerHTML = compScore;
+    if (userScore == undefined || compScore == undefined) {
+      localStorage.setItem('userScore', 0);
+      localStorage.setItem('compScore', 0);
+    } else {
+      userScore_span.innerHTML = userScore;
+      compScore_span.innerHTML = compScore;
+    }
   },
   false
 );
@@ -44,20 +49,20 @@ function updateScores(userScore, compScore) {
 // Displays user won on HTML and updates user's score
 function win(userChoice, compChoice) {
   resultMessage.innerHTML = `${userChoice} beats ${compChoice}. You win!`;
-  userScore = Number(userScore) + 1;
-  localStorage.setItem('userScore', userScore);
+  let score = parseInt(localStorage.getItem('userScore')) + 1;
+  localStorage.setItem('userScore', score.toString());
 }
 
 // Displays user won on HTML and updates computer's score
 function lost(userChoice, compChoice) {
   resultMessage.innerHTML = `${userChoice} can't beat ${compChoice}. You lost!`;
-  compScore = Number(compScore) + 1;
-  localStorage.setItem('compScore', compScore);
+  let score = parseInt(localStorage.getItem('compScore')) + 1;
+  localStorage.setItem('compScore', score.toString());
 }
 
 // When the user chooses rock
 rock_div.addEventListener('click', function () {
-  userChoice = 'rock';
+  let userChoice = 'rock';
   let compChoice = randomChoice();
 
   // compares the results
